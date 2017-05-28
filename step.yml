@@ -1,0 +1,133 @@
+title: Xamarin Archive
+summary: Xamarin Archive
+description: |-
+  Create an archive for your Xamarin application.
+website: https://github.com/bitrise-steplib/steps-xamarin-archive
+source_code_url: https://github.com/bitrise-steplib/steps-xamarin-archive
+support_url: https://github.com/bitrise-steplib/steps-xamarin-archive/issues
+host_os_tags:
+  - osx-10.10
+project_type_tags:
+  - xamarin
+type_tags:
+  - build
+is_requires_admin_user: false
+is_always_run: false
+is_skippable: false
+deps:
+  brew:
+  - name: go
+  apt_get:
+  - name: golang
+    bin_name: go
+toolkit:
+  go:
+    package_name: github.com/bitrise-steplib/steps-xamarin-archive
+inputs:
+  - xamarin_solution: $BITRISE_PROJECT_PATH
+    opts:
+      title: Path to the Xamarin Solution file
+      description: |-
+        The Xamarin Solution file `.sln` path.
+      is_required: true
+  - xamarin_configuration: $BITRISE_XAMARIN_CONFIGURATION
+    opts:
+      title: Xamarin solution configuration
+      description: |-
+        Xamarin solution configuration.
+      is_required: true
+  - xamarin_platform: $BITRISE_XAMARIN_PLATFORM
+    opts:
+      title: Xamarin solution platform
+      description: |-
+        Xamarin solution platform.
+      is_required: true
+  - project_type_whitelist: "android,ios,macos,tvos"
+    opts:
+      title: Specify project types to build
+      description: |-
+        Comma separated list of project types to build.
+
+        __Empty list means: build all project types.__
+
+        Available platforms:
+
+        - android
+        - ios
+        - macos
+        - tvos
+  - ios_build_command_custom_options:
+    opts:
+      title: (Experimental) Options to append to the iOS build command
+      description: |-
+        These options will be append to the end of the iOS build command.
+  - android_build_command_custom_options:
+    opts:
+      title: (Experimental) Options to append to the Android build command
+      description: |-
+        These options will be append to the end of the Android build command.
+  - tvos_build_command_custom_options:
+    opts:
+      title: (Experimental) Options to append to the tvOS build command
+      description: |-
+        These options will be append to the end of the tvOS build command.
+  - macos_build_command_custom_options:
+    opts:
+      title: (Experimental) Options to append to the macOS build command
+      description: |-
+        These options will be append to the end of the macOS build command.
+  - force_mdtool: "no"
+    opts:
+      title: (Experimental) Force use mdtool for builds?
+      description: |-
+        Force use mdtool for building iOS, tvOS and macOS projects?
+
+        By default step will build __iOS__, __tvOS__ and __macOS__ projects with `xbuild` build tool.
+        If you want to switch to use `mdtool`, set this input to `yes`.
+
+        _Android projects will build with `xbuild`._
+      value_options:
+      - "yes"
+      - "no"
+      is_required: true
+outputs:
+  # Android output
+  - BITRISE_APK_PATH: ""
+    opts:
+      title: The created android .apk file's path
+  # iOS outputs
+  - BITRISE_XCARCHIVE_PATH: ""
+    opts:
+      title: The created iOS .xcarchive file's path
+  - BITRISE_IPA_PATH:
+    opts:
+      title: The created iOS .ipa file's path
+  - BITRISE_DSYM_PATH:
+    opts:
+      title: The created iOS .dSYM.zip file's path
+  - BITRISE_APP_PATH:
+    opts:
+      title: The create iOS .app file's path
+  # tvOS outputs
+  - BITRISE_TVOS_XCARCHIVE_PATH: ""
+    opts:
+      title: The created tvOS .xcarchive file's path
+  - BITRISE_TVOS_IPA_PATH:
+    opts:
+      title: The created tvOS .ipa file's path
+  - BITRISE_TVOS_DSYM_PATH:
+    opts:
+      title: The created tvOS .dSYM file's path
+  - BITRISE_TVOS_APP_PATH:
+    opts:
+      title: The create tvOS .app file's path
+  # macOS outputs
+  - BITRISE_MACOS_XCARCHIVE_PATH: ""
+    opts:
+      title: The created macOS .xcarchive file's path
+  - BITRISE_MACOS_APP_PATH:
+    opts:
+      title: The created macOS .app file's path
+  - BITRISE_MACOS_PKG_PATH:
+    opts:
+      title: The created macOS .pkg file's path
